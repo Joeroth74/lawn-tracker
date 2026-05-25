@@ -9,9 +9,9 @@ services:
     container_name: lawn-tracker
     restart: unless-stopped
     networks:
-      - npm_network
+      - net-proxy
 
 networks:
   npm_network:
     external: true
-    name: npm_default
+    name: net-proxy
