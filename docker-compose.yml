@@ -1,0 +1,12 @@
+services:
+  lawn-tracker:
+    build:
+      context: .
+      args:
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
+    image: lawn-tracker:latest
+    container_name: lawn-tracker
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8085:80"
