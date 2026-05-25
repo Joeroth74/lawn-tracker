@@ -12,6 +12,5 @@ services:
       - net-proxy
 
 networks:
-  npm_network:
+  net-proxy:
     external: true
-    name: net-proxy
