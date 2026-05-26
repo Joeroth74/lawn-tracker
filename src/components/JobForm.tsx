@@ -101,7 +101,7 @@ export default function JobForm({
           id="client"
           value={selectedClientId}
           onChange={(e) => handleClientChange(e.target.value)}
-          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.clientId ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-500`}
+          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.clientId ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
         >
           <option value="">Select a client</option>
           {loadingClients ? (
@@ -131,7 +131,7 @@ export default function JobForm({
           type="date"
           value={scheduledDate}
           onChange={(e) => setScheduledDate(e.target.value)}
-          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.scheduledDate ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-500`}
+          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.scheduledDate ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
         />
         {errors.scheduledDate && (
           <p className="text-red-500 text-sm mt-1">{errors.scheduledDate}</p>
@@ -156,7 +156,7 @@ export default function JobForm({
             min="0"
             value={priceCharged}
             onChange={(e) => setPriceCharged(e.target.value)}
-            className={`w-full pl-7 pr-3 py-3 border rounded-lg text-[16px] ${errors.priceCharged ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-500`}
+            className={`w-full pl-7 pr-3 py-3 border rounded-lg text-[16px] ${errors.priceCharged ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
             placeholder="0.00"
           />
         </div>
@@ -177,7 +177,7 @@ export default function JobForm({
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
-          className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-600"
           placeholder="Any additional notes..."
         />
       </div>

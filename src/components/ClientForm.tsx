@@ -77,7 +77,7 @@ export default function ClientForm({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.name ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-500`}
+          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.name ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
           placeholder="Client name"
         />
         {errors.name && (
@@ -98,7 +98,7 @@ export default function ClientForm({
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-600"
             placeholder="(555) 123-4567"
           />
         </div>
@@ -115,7 +115,7 @@ export default function ClientForm({
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-600"
             placeholder="client@example.com"
           />
         </div>
@@ -133,7 +133,7 @@ export default function ClientForm({
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.address ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-500`}
+          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.address ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
           placeholder="123 Main St, City, State ZIP"
         />
         {errors.address && (
@@ -159,7 +159,7 @@ export default function ClientForm({
             min="0"
             value={defaultPrice}
             onChange={(e) => setDefaultPrice(e.target.value)}
-            className={`w-full pl-7 pr-3 py-3 border rounded-lg text-[16px] ${errors.defaultPrice ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-500`}
+            className={`w-full pl-7 pr-3 py-3 border rounded-lg text-[16px] ${errors.defaultPrice ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
             placeholder="0.00"
           />
         </div>
@@ -180,7 +180,7 @@ export default function ClientForm({
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
-          className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full px-3 py-3 border border-gray-300 rounded-lg text-[16px] focus:outline-none focus:ring-2 focus:ring-green-600"
           placeholder="Any additional notes..."
         />
       </div>

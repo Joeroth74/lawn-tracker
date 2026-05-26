@@ -377,7 +377,7 @@ export default function Schedule() {
                         ${!cell.isCurrentMonth ? "bg-gray-50/50" : "bg-white"}
                         ${
                           isSelected
-                            ? "ring-2 ring-inset ring-green-500 z-10"
+                            ? "ring-2 ring-inset ring-green-600 z-10"
                             : ""
                         }
                         ${isToday && !isSelected ? "bg-green-50/70" : ""}
@@ -401,7 +401,7 @@ export default function Schedule() {
                       {dayJobs.length > 0 && (
                         <div className="flex gap-0.5 mt-0.5">
                           {isCompleted && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-600" />
                           )}
                           {isPaid && (
                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
