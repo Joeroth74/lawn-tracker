@@ -247,7 +247,7 @@ export default function Schedule() {
                         ${!cell.isCurrentMonth ? "bg-gray-50/50" : "bg-white"}
                         ${
                           isSelected
-                            ? "ring-2 ring-inset ring-green-500 z-10"
+                            ? "ring-2 ring-inset ring-green-600 z-10"
                             : ""
                         }
                         ${isToday && !isSelected ? "bg-green-50/70" : ""}
@@ -334,12 +334,12 @@ export default function Schedule() {
             {/* Legend */}
             <div className="mt-4 flex items-center gap-4 text-xs text-gray-500">
               <div className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-green-500" />
-                <span>All completed</span>
+                <span className="w-3 h-3 rounded-full bg-green-600" />
+                <span>Completed</span>
               </div>
               <div className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-blue-500" />
-                <span>All paid</span>
+                <span className="w-3 h-3 rounded-full bg-blue-600" />
+                <span>Paid</span>
               </div>
             </div>
           </div>

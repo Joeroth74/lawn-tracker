@@ -26,7 +26,7 @@ export default function Layout() {
       }}
     >
       <header className="hidden md:grid sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm px-6 py-3 grid-cols-[1fr_auto_1fr] items-center">
-        <div className="justify-self-start text-xl font-extrabold text-green-700 tracking-tight">
+        <div className="justify-self-start text-xl font-extrabold text-green-600 tracking-tight">
           LawnTracker
         </div>
 
@@ -38,7 +38,7 @@ export default function Layout() {
               className={({ isActive }) =>
                 `flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-white text-green-700 shadow-sm"
+                    ? "bg-white text-green-600 shadow-sm"
                     : "text-gray-500 hover:text-gray-900"
                 }`
               }
