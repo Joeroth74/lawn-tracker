@@ -260,7 +260,7 @@ export default function JobForm({
             value={scheduledDate}
             onChange={(e) => handleDatePickerChange(e.target.value)}
             aria-label="Scheduled date"
-            className="date-input absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0 focus:outline-none focus:ring-2 focus:ring-green-600"
+            className="absolute inset-0 z-10 h-full cursor-pointer opacity-0 focus:outline-none focus:ring-2 focus:ring-green-600"
           />
           <CalendarDays
             aria-hidden="true"

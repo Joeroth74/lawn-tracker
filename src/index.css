@@ -10,13 +10,6 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-.date-input {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
 @utility pb-safe {
     padding-bottom: max(0px, calc(env(safe-area-inset-bottom) - 16px));
 }
