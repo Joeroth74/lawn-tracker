@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { CalendarDays, ChevronDown } from "lucide-react";
 import { getClients, type Client } from "../api/clientsAPI";
 import { type Job, type NewJob } from "../api/jobsAPI";
 import { formatDateInputValue } from "../utils/date";
@@ -11,6 +12,46 @@ interface JobFormProps {
   onCancel: () => void;
 }
 
+function formatDateForDisplay(value: string) {
+  const [year, month, day] = value.split("-");
+  return year && month && day ? `${month} / ${day} / ${year}` : value;
+}
+
+function formatDateTextInput(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+
+  if (digits.length <= 2) {
+    return digits.length === 2 ? `${digits} / ` : digits;
+  }
+
+  if (digits.length <= 4) {
+    const monthAndDay = `${digits.slice(0, 2)} / ${digits.slice(2)}`;
+    return digits.length === 4 ? `${monthAndDay} / ` : monthAndDay;
+  }
+
+  return `${digits.slice(0, 2)} / ${digits.slice(2, 4)} / ${digits.slice(4)}`;
+}
+
+function parseDateText(value: string) {
+  const trimmedValue = value.trim();
+  const match = /^(\d{1,2})\s*\/\s*(\d{1,2})\s*\/\s*(\d{4})$/.exec(
+    trimmedValue,
+  );
+
+  if (!match) return "";
+
+  const [, month, day, year] = match;
+  const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+  const isValidDate =
+    parsedDate.getFullYear() === Number(year) &&
+    parsedDate.getMonth() === Number(month) - 1 &&
+    parsedDate.getDate() === Number(day);
+
+  return isValidDate
+    ? `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+    : "";
+}
+
 export default function JobForm({
   mode,
   job,
@@ -18,16 +59,23 @@ export default function JobForm({
   onSave,
   onCancel,
 }: JobFormProps) {
+  const initialScheduledDate =
+    mode === "edit" && job?.scheduled_date
+      ? job.scheduled_date
+      : (defaultDate ?? formatDateInputValue(new Date()));
   const [clients, setClients] = useState<Client[]>([]);
   const [loadingClients, setLoadingClients] = useState(true);
+  const [clientLoadError, setClientLoadError] = useState<string | null>(null);
   const [selectedClientId, setSelectedClientId] = useState<string>(
     mode === "edit" && job?.client_id ? job.client_id : "",
   );
   const [scheduledDate, setScheduledDate] = useState<string>(
-    mode === "edit" && job?.scheduled_date
-      ? job.scheduled_date
-      : (defaultDate ?? formatDateInputValue(new Date())),
+    initialScheduledDate,
   );
+  const [dateText, setDateText] = useState<string>(
+    formatDateForDisplay(initialScheduledDate),
+  );
+  const datePickerRef = useRef<HTMLInputElement>(null);
   const [priceCharged, setPriceCharged] = useState<string>(
     mode === "edit" && job ? job.price_charged.toString() : "",
   );
@@ -42,7 +90,9 @@ export default function JobForm({
         const data = await getClients();
         setClients(data);
       } catch (err) {
-        console.error("Failed to load clients:", err);
+        setClientLoadError(
+          err instanceof Error ? err.message : "Failed to load clients",
+        );
       } finally {
         setLoadingClients(false);
       }
@@ -59,12 +109,42 @@ export default function JobForm({
     }
   }
 
+  function handleDateTextChange(value: string) {
+    const formattedValue = formatDateTextInput(value);
+    setDateText(formattedValue);
+    setScheduledDate(parseDateText(formattedValue));
+  }
+
+  function handleDatePickerChange(value: string) {
+    setScheduledDate(value);
+    setDateText(formatDateForDisplay(value));
+  }
+
+  function openDatePicker() {
+    const datePicker = datePickerRef.current;
+    if (!datePicker) return;
+
+    const datePickerWithShowPicker = datePicker as HTMLInputElement & {
+      showPicker?: () => void;
+    };
+
+    if (datePickerWithShowPicker.showPicker) {
+      datePickerWithShowPicker.showPicker();
+    } else {
+      datePicker.click();
+    }
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const newErrors: Record<string, string> = {};
     if (!selectedClientId) newErrors.clientId = "Please select a client";
-    if (!scheduledDate) newErrors.scheduledDate = "Date is required";
+    if (!scheduledDate) {
+      newErrors.scheduledDate = dateText
+        ? "Enter a valid date"
+        : "Date is required";
+    }
     if (
       !priceCharged ||
       isNaN(Number(priceCharged)) ||
@@ -97,42 +177,97 @@ export default function JobForm({
         >
           Client <span className="text-red-500">*</span>
         </label>
-        <select
-          id="client"
-          value={selectedClientId}
-          onChange={(e) => handleClientChange(e.target.value)}
-          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.clientId ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
-        >
-          <option value="">Select a client</option>
-          {loadingClients ? (
-            <option>Loading...</option>
-          ) : (
-            clients.map((client) => (
-              <option key={client.id} value={client.id}>
-                {client.name}
-              </option>
-            ))
-          )}
-        </select>
+        <div className="relative w-full min-w-0">
+          <select
+            id="client"
+            value={selectedClientId}
+            onChange={(e) => handleClientChange(e.target.value)}
+            className={`block w-full min-w-0 appearance-none px-3 pr-10 py-3 border rounded-lg text-[16px] ${errors.clientId ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
+          >
+            <option value="">Select a client</option>
+            {loadingClients ? (
+              <option>Loading...</option>
+            ) : (
+              clients.map((client) => (
+                <option key={client.id} value={client.id}>
+                  {client.name}
+                </option>
+              ))
+            )}
+          </select>
+          <ChevronDown
+            aria-hidden="true"
+            size={18}
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+        </div>
+        {clientLoadError && (
+          <p className="text-red-500 text-sm mt-1">{clientLoadError}</p>
+        )}
         {errors.clientId && (
           <p className="text-red-500 text-sm mt-1">{errors.clientId}</p>
         )}
       </div>
 
       <div>
-        <label
-          htmlFor="scheduledDate"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           Date <span className="text-red-500">*</span>
         </label>
-        <input
-          id="scheduledDate"
-          type="date"
-          value={scheduledDate}
-          onChange={(e) => setScheduledDate(e.target.value)}
-          className={`w-full px-3 py-3 border rounded-lg text-[16px] ${errors.scheduledDate ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
-        />
+        <div className="relative hidden w-full min-w-0 md:block">
+          <input
+            id="scheduledDateDesktop"
+            type="text"
+            inputMode="numeric"
+            value={dateText}
+            onChange={(e) => handleDateTextChange(e.target.value)}
+            onBlur={() => {
+              if (scheduledDate) {
+                setDateText(formatDateForDisplay(scheduledDate));
+              }
+            }}
+            aria-label="Scheduled date"
+            placeholder="MM / DD / YYYY"
+            className={`block w-full min-w-0 max-w-full box-border px-3 pr-12 py-3 border rounded-lg text-[16px] ${errors.scheduledDate ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-green-600`}
+          />
+          <button
+            type="button"
+            onClick={openDatePicker}
+            aria-label="Open date picker"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            <CalendarDays aria-hidden="true" size={18} />
+          </button>
+          <input
+            ref={datePickerRef}
+            type="date"
+            value={scheduledDate}
+            onChange={(e) => handleDatePickerChange(e.target.value)}
+            tabIndex={-1}
+            aria-hidden="true"
+            className="pointer-events-none absolute h-px w-px opacity-0"
+          />
+        </div>
+        <div className="relative w-full min-w-0 md:hidden">
+          <div
+            aria-hidden="true"
+            className={`block w-full min-w-0 max-w-full box-border px-3 pr-10 py-3 border rounded-lg text-[16px] ${errors.scheduledDate ? "border-red-500" : "border-gray-300"}`}
+          >
+            {formatDateForDisplay(scheduledDate)}
+          </div>
+          <input
+            id="scheduledDateMobile"
+            type="date"
+            value={scheduledDate}
+            onChange={(e) => handleDatePickerChange(e.target.value)}
+            aria-label="Scheduled date"
+            className="date-input absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0 focus:outline-none focus:ring-2 focus:ring-green-600"
+          />
+          <CalendarDays
+            aria-hidden="true"
+            size={18}
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+        </div>
         {errors.scheduledDate && (
           <p className="text-red-500 text-sm mt-1">{errors.scheduledDate}</p>
         )}

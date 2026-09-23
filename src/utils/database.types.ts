@@ -24,6 +24,7 @@ export type Database = {
           name: string;
           notes: string | null;
           phone: string | null;
+          workspace_id: string | null;
         };
         Insert: {
           address: string;
@@ -34,6 +35,7 @@ export type Database = {
           name: string;
           notes?: string | null;
           phone?: string | null;
+          workspace_id?: string | null;
         };
         Update: {
           address?: string;
@@ -44,6 +46,7 @@ export type Database = {
           name?: string;
           notes?: string | null;
           phone?: string | null;
+          workspace_id?: string | null;
         };
         Relationships: [];
       };
@@ -57,6 +60,7 @@ export type Database = {
           job_notes: string | null;
           price_charged: number;
           scheduled_date: string;
+          workspace_id: string | null;
         };
         Insert: {
           client_id?: string | null;
@@ -67,6 +71,7 @@ export type Database = {
           job_notes?: string | null;
           price_charged: number;
           scheduled_date: string;
+          workspace_id?: string | null;
         };
         Update: {
           client_id?: string | null;
@@ -77,6 +82,7 @@ export type Database = {
           job_notes?: string | null;
           price_charged?: number;
           scheduled_date?: string;
+          workspace_id?: string | null;
         };
         Relationships: [
           {

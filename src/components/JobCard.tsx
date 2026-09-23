@@ -64,7 +64,7 @@ export default function JobCard({
               }
             `}
           >
-            {job.is_paid ? "Paid" : "Paid"}
+            {job.is_paid ? "Paid" : "Mark paid"}
           </button>
           <ActionMenu onEdit={onEdit} onDelete={onDelete} />
         </div>

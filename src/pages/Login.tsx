@@ -40,20 +40,24 @@ export default function Login() {
     setMessage(null);
     setLoading(true);
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
+    try {
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
 
-    if (signInError) {
-      setError(signInError.message);
+      if (signInError) {
+        setError(signInError.message);
+        return;
+      }
+
+      setMessage("Signed in successfully.");
+      navigate(redirectPath, { replace: true });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to sign in.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setMessage("Signed in successfully.");
-    setLoading(false);
-    navigate(redirectPath, { replace: true });
   }
 
   async function handlePasswordReset() {
@@ -67,20 +71,26 @@ export default function Login() {
 
     setLoading(true);
 
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-      email.trim(),
-      {
-        redirectTo: `${window.location.origin}/reset-password`,
-      },
-    );
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email.trim(),
+        {
+          redirectTo: `${window.location.origin}/reset-password`,
+        },
+      );
 
-    if (resetError) {
-      setError(resetError.message);
-    } else {
-      setMessage("Password reset email sent.");
+      if (resetError) {
+        setError(resetError.message);
+      } else {
+        setMessage("Password reset email sent.");
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Unable to send reset email.",
+      );
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (

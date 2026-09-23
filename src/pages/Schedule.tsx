@@ -469,7 +469,7 @@ export default function Schedule() {
             <JobForm
               mode={formMode}
               job={editingJob}
-              defaultDate={selectedDate ?? undefined}
+              defaultDate={formMode === "add" ? todayStr : undefined}
               onSave={handleSave}
               onCancel={closeForm}
             />

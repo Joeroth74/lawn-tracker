@@ -15,16 +15,25 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     let isMounted = true;
 
     async function loadSession() {
-      const { data, error } = await supabase.auth.getSession();
+      try {
+        const { data, error } = await supabase.auth.getSession();
 
-      if (!isMounted) return;
+        if (!isMounted) return;
 
-      if (error) {
-        console.error("Error loading auth session:", error);
+        if (error) {
+          console.error("Error loading auth session:", error);
+        }
+
+        setSession(data.session);
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error loading auth session:", error);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
-
-      setSession(data.session);
-      setLoading(false);
     }
 
     loadSession();

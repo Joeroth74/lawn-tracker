@@ -39,17 +39,24 @@ export default function ResetPassword() {
 
     setLoading(true);
 
-    const { error: updateError } = await supabase.auth.updateUser({
-      password,
-    });
+    try {
+      const { error: updateError } = await supabase.auth.updateUser({
+        password,
+      });
 
-    if (updateError) {
-      setError(updateError.message);
+      if (updateError) {
+        setError(updateError.message);
+        return;
+      }
+
+      navigate("/", { replace: true });
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Unable to update password.",
+      );
+    } finally {
       setLoading(false);
-      return;
     }
-
-    navigate("/", { replace: true });
   }
 
   return (

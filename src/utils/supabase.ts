@@ -4,4 +4,10 @@ import type { Database } from "./database.types";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error(
+    "Missing Supabase configuration. Copy .env.example to .env.local and set both VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.",
+  );
+}
+
 export const supabase = createClient<Database>(supabaseUrl, supabaseKey);

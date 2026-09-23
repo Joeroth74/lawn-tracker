@@ -63,8 +63,12 @@ export default function ActionMenu({ onEdit, onDelete }: ActionMenuProps) {
   return (
     <div className="relative inline-block">
       <button
+        type="button"
         ref={triggerRef}
         onClick={() => setOpen((o) => !o)}
+        aria-label="Open actions"
+        aria-expanded={open}
+        aria-haspopup="menu"
         className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors rounded-lg active:bg-gray-100"
       >
         <MoreVertical size={16} />
@@ -72,10 +76,13 @@ export default function ActionMenu({ onEdit, onDelete }: ActionMenuProps) {
       {open && (
         <div
           ref={menuRef}
+          role="menu"
           className="fixed w-36 bg-white rounded-lg border border-gray-200 shadow-lg z-50 py-1"
           style={{ top: position.top, right: position.right }}
         >
           <button
+            type="button"
+            role="menuitem"
             onClick={() => {
               onEdit();
               setOpen(false);
@@ -86,6 +93,8 @@ export default function ActionMenu({ onEdit, onDelete }: ActionMenuProps) {
             Edit
           </button>
           <button
+            type="button"
+            role="menuitem"
             onClick={() => {
               onDelete();
               setOpen(false);
