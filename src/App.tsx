@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Clients from "./pages/Clients";
 import Schedule from "./pages/Schedule";
+import Financials from "./pages/Financials";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 
@@ -22,6 +23,7 @@ export default function App() {
               <Route index element={<Dashboard />} />
               <Route path="clients" element={<Clients />} />
               <Route path="schedule" element={<Schedule />} />
+              <Route path="financials" element={<Financials />} />
             </Route>
           </Route>
         </Routes>

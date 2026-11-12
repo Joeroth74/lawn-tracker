@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from "react-router-dom";
-import { Calendar, Home, LogOut, Users } from "lucide-react";
+import { Calendar, DollarSign, Home, LogOut, Users } from "lucide-react";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Layout() {
@@ -8,6 +8,7 @@ export default function Layout() {
     { name: "Today", path: "/", icon: Home },
     { name: "Clients", path: "/clients", icon: Users },
     { name: "Schedule", path: "/schedule", icon: Calendar },
+    { name: "Financials", path: "/financials", icon: DollarSign },
   ];
 
   async function handleSignOut() {

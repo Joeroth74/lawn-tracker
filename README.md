@@ -9,6 +9,7 @@ LawnTracker is a responsive client and job scheduling app for independent lawn-c
 - Client directory with contact details, pricing, notes, and CRUD actions
 - Monthly schedule with desktop and mobile calendar layouts
 - Job creation and editing with client, date, price, notes, completion, and payment tracking
+- Financials tab with monthly and yearly earned, paid, and unpaid totals for completed jobs, overall and by client, based on scheduled job dates
 - Responsive UI with mobile navigation and touch-friendly controls
 - Docker image for deployment behind an Nginx reverse proxy
 
